@@ -6,6 +6,9 @@ class Trip(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     people_count = models.IntegerField(default=1)
     title = models.CharField(max_length=200)
+    
+    def __str__(self):
+        return self.title
 
 class Event(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
@@ -20,3 +23,9 @@ class Event(models.Model):
     address = models.CharField(max_length=200)
     long = models.DecimalField(max_digits=9, decimal_places=6)
     lat = models.DecimalField(max_digits=9, decimal_places=6)
+    
+    def __str__(self):
+        return self.title
+    
+    def save(self, **kwargs):
+        super().save(**kwargs)
