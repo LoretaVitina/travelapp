@@ -20,6 +20,7 @@ deactivate
 pip install --upgrade pip
 pip install django
 pip install requests
+pip install django-bootstrap5
 
 # create app
 django-admin startproject travel_app

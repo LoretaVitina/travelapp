@@ -1,0 +1,14 @@
+{% extends 'journey/base.html' %}
+{% block content %}
+
+{% if trips %}
+    <ul>
+    {% for trip in trips %}
+        <li>{{ trip.title }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No trips are available.</p>
+{% endif %}
+
+{% endblock content %}
