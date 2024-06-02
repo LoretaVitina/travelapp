@@ -1,3 +1,6 @@
+import os
+
+import requests
 from django.db import models
 
 
@@ -28,4 +31,12 @@ class Event(models.Model):
         return self.title
     
     def save(self, **kwargs):
+        api_key = os.environ['GOOGLE_MAPS_APIKEY']
+        api_response = requests.get('https://maps.googleapis.com/maps/api/geocode/json?address={0}&key={1}'.format(self.address, api_key)).json()
+        if api_response['status'] == 'OK':
+            self.long = api_response["results"][0]["geometry"]['location']['lng']
+            self.lat = api_response["results"][0]["geometry"]['location']['lat']
+        else:
+            self.long = 0.0
+            self.lat = 0.0
         super().save(**kwargs)

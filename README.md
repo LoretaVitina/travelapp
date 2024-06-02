@@ -19,21 +19,31 @@ deactivate
 # install django
 pip install --upgrade pip
 pip install django
+pip install requests
 
 # create app
 django-admin startproject travel_app
 ```
 
-## actions with server
+## app creation
 
 ```bash
-# starting server
-python3 manage.py runserver
+# creating an app
+python manage.py startapp journey
 ```
 
-## actions with server
+## actions with application
 
 ```bash
 # starting server
-python3 manage.py runserver
+GOOGLE_MAPS_APIKEY=apikeyhere python3 manage.py runserver
+
+# database migration
+python3 manage.py migrate
+
+python3 manage.py makemigrations journey
+
+# creation of admin user
+python3 manage.py createsuperuser
+
 ```
