@@ -2,6 +2,7 @@ import os
 
 import requests
 from django.db import models
+from django.db.models import Max, Min, Sum
 
 
 class Trip(models.Model):
@@ -12,6 +13,21 @@ class Trip(models.Model):
     
     def __str__(self):
         return self.title
+    
+    def costs(self):
+        return self.event_set.aggregate(Sum('price'))['price__sum']
+    
+    def costs_per_person(self):
+        return self.costs() / self.people_count
+    
+    def start_date(self):
+        return self.event_set.aggregate(Min('date'))['date__min']
+    
+    def end_date(self):
+        return self.event_set.aggregate(Max('date'))['date__max']
+    
+    def duration(self):
+        return (self.end_date() - self.start_date()).days + 1
 
 class Event(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
