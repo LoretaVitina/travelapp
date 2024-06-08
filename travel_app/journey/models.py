@@ -52,8 +52,8 @@ class Event(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
     comment = models.TextField(null=True, blank=True)
     address = models.CharField(max_length=200)
-    long = models.DecimalField(max_digits=9, decimal_places=6)
-    lat = models.DecimalField(max_digits=9, decimal_places=6)
+    long = models.DecimalField(max_digits=9, decimal_places=6, default=0.0)
+    lat = models.DecimalField(max_digits=9, decimal_places=6, default=0.0)
     
     def __str__(self):
         return self.title
@@ -65,9 +65,6 @@ class Event(models.Model):
             if api_response['status'] == 'OK':
                 self.long = api_response["results"][0]["geometry"]['location']['lng']
                 self.lat = api_response["results"][0]["geometry"]['location']['lat']
-            else:
-                self.long = 0.0
-                self.lat = 0.0
         super().save(**kwargs)
         
     def coordinates(self):
