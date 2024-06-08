@@ -40,7 +40,7 @@
                         </table>
                     </div>
                     <div class="col-6">
-                        <img src="DSC_3348.jpg" alt="travelphoto" class="img-thumbnail"/>
+                        <img src="{{ trip.image.url }}" alt="travelphoto" class="img-thumbnail"/>
                     </div>
                     <a href="{% url 'journey:detail' trip.id %}" class="btn btn-primary">Skatīt ceļojumu</a>
                 </div>
