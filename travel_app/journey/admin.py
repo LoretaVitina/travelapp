@@ -14,7 +14,7 @@ class EventInline(admin.StackedInline):
 
 class TripAdmin(admin.ModelAdmin):
     fieldsets = [
-        ("Trip base data", {"fields": ["title", "people_count"]})
+        ("Trip base data", {"fields": ["title", "people_count", "image"]})
     ] 
     inlines = [EventInline]
 

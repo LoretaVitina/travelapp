@@ -1,3 +1,4 @@
+import datetime
 import os
 
 import requests
@@ -10,6 +11,7 @@ class Trip(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     people_count = models.IntegerField(default=1)
     title = models.CharField(max_length=200)
+    image = models.ImageField(upload_to='images/uploaded', default='images/default.jpg')
     
     def __str__(self):
         return self.title
@@ -28,6 +30,9 @@ class Trip(models.Model):
     
     def duration(self):
         return (self.end_date() - self.start_date()).days + 1
+    
+    def days_from_updated_at(self):
+        return (datetime.datetime.now(tz=datetime.timezone.utc) - self.updated_at).days;
 
 class Event(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
@@ -37,8 +42,8 @@ class Event(models.Model):
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
     title = models.CharField(max_length=200)
-    price = models.DecimalField(max_digits=10, decimal_places=2)
-    comment = models.TextField()
+    price = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
+    comment = models.TextField(null=True, blank=True)
     address = models.CharField(max_length=200)
     long = models.DecimalField(max_digits=9, decimal_places=6)
     lat = models.DecimalField(max_digits=9, decimal_places=6)

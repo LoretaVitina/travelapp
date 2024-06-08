@@ -129,3 +129,6 @@ GRAPH_MODELS = {
   'all_applications': True,
   'group_models': True,
 }
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"

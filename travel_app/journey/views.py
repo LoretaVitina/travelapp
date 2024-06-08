@@ -11,3 +11,7 @@ class IndexView(generic.ListView):
     def get_queryset(self):
         return Trip.objects.order_by("created_at")
     
+    
+class DetailView(generic.DetailView):
+    model = Trip
+    template_name = "journey/detail.html"

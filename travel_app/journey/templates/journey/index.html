@@ -1,16 +1,6 @@
 {% extends 'journey/base.html' %}
 {% block content %}
 
-{% comment %} {% if trips %}
-    <ul>
-    {% for trip in trips %}
-        <li>{{ trip.title }}</li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No trips are available.</p>
-{% endif %} {% endcomment %}
-
 {% if trips %}
 <h1>Gads</h1>
 <div class="row my-5">
@@ -52,11 +42,11 @@
                     <div class="col-6">
                         <img src="DSC_3348.jpg" alt="travelphoto" class="img-thumbnail"/>
                     </div>
-                    <a href="" class="btn btn-primary">Skatīt ceļojumu</a>
+                    <a href="{% url 'journey:detail' trip.id %}" class="btn btn-primary">Skatīt ceļojumu</a>
                 </div>
             </div>
             <div class="card-footer">
-                <small class="text-muted">Pēdējās izmaiņas veiktas 3 dienas atpakaļ</small>
+                <small class="text-muted">Pēdējās izmaiņas veiktas {{ trip.days_from_updated_at }} dienas atpakaļ</small>
             </div>
         </div>
     </div>
