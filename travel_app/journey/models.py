@@ -32,7 +32,13 @@ class Trip(models.Model):
         return (self.end_date() - self.start_date()).days + 1
     
     def days_from_updated_at(self):
-        return (datetime.datetime.now(tz=datetime.timezone.utc) - self.updated_at).days;
+        return (datetime.datetime.now(tz=datetime.timezone.utc) - self.updated_at).days
+    
+    def all_coordinates(self):
+        return "|".join(event.coordinates() for event in self.event_set.all())
+    
+    def map_url(self):
+        return "https://maps.googleapis.com/maps/api/staticmap?size=1000x2400&maptype=roadmap&markers=color:blue%7C" + self.all_coordinates() + "&key=" + os.environ['GOOGLE_MAPS_APIKEY']
 
 class Event(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
@@ -61,3 +67,6 @@ class Event(models.Model):
             self.long = 0.0
             self.lat = 0.0
         super().save(**kwargs)
+        
+    def coordinates(self):
+        return str(self.lat) + "," + str(self.long)
