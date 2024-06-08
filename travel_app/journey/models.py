@@ -1,6 +1,7 @@
 import datetime
 import os
 
+import django
 import requests
 from django.db import models
 from django.db.models import Max, Min, Sum
@@ -38,15 +39,15 @@ class Trip(models.Model):
         return "|".join(event.coordinates() for event in self.event_set.all())
     
     def map_url(self):
-        return "https://maps.googleapis.com/maps/api/staticmap?size=1000x2400&maptype=roadmap&markers=color:blue%7C" + self.all_coordinates() + "&key=" + os.environ['GOOGLE_MAPS_APIKEY']
+        return "https://maps.googleapis.com/maps/api/staticmap?size=1000x500&maptype=roadmap&markers=color:blue%7C" + self.all_coordinates() + "&key=" + os.environ['GOOGLE_MAPS_APIKEY']
 
 class Event(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     trip = models.ForeignKey(Trip, on_delete=models.CASCADE)
-    date = models.DateField()
-    start_time = models.DateTimeField()
-    end_time = models.DateTimeField()
+    date = models.DateField(default=datetime.date.today)
+    start_time = models.DateTimeField(default=django.utils.timezone.now)
+    end_time = models.DateTimeField(default=django.utils.timezone.now)
     title = models.CharField(max_length=200)
     price = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
     comment = models.TextField(null=True, blank=True)
@@ -58,14 +59,15 @@ class Event(models.Model):
         return self.title
     
     def save(self, **kwargs):
-        api_key = os.environ['GOOGLE_MAPS_APIKEY']
-        api_response = requests.get('https://maps.googleapis.com/maps/api/geocode/json?address={0}&key={1}'.format(self.address, api_key)).json()
-        if api_response['status'] == 'OK':
-            self.long = api_response["results"][0]["geometry"]['location']['lng']
-            self.lat = api_response["results"][0]["geometry"]['location']['lat']
-        else:
-            self.long = 0.0
-            self.lat = 0.0
+        api_key = os.environ.get('GOOGLE_MAPS_APIKEY')
+        if api_key != None:
+            api_response = requests.get('https://maps.googleapis.com/maps/api/geocode/json?address={0}&key={1}'.format(self.address, api_key)).json()
+            if api_response['status'] == 'OK':
+                self.long = api_response["results"][0]["geometry"]['location']['lng']
+                self.lat = api_response["results"][0]["geometry"]['location']['lat']
+            else:
+                self.long = 0.0
+                self.lat = 0.0
         super().save(**kwargs)
         
     def coordinates(self):
