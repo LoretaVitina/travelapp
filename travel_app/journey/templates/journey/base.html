@@ -11,13 +11,18 @@
         <link rel="stylesheet" href="{% static 'journey/style.css' %}">
     </head>
     <body>
-        <div>
-            <a href="{% url 'journey:index' %}">Home</a>
-        </div>
+        <header>
+            <div class="col text-center display-1">Ceļojumu plānotājs</div>
+        </header>
         <div class="container-fluid">
             {% block content %}
             
             {% endblock content %}
         </div>
+        <footer class="footer pt-5">
+            <p class="text-center">&copy Copyright 2024</p>
+            <p class="text-lg-center">Loreta Vītiņa</p>
+            <p class="text-lg-center"><a href="mailto:loreta.vitina@va.lv">Contact me</a></p>
+        </footer>
     </body>
 </html>

@@ -3,6 +3,7 @@ import os
 
 import django
 import requests
+from django.core.validators import MinValueValidator
 from django.db import models
 from django.db.models import Max, Min, Sum
 
@@ -10,7 +11,7 @@ from django.db.models import Max, Min, Sum
 class Trip(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    people_count = models.IntegerField(default=1)
+    people_count = models.IntegerField(default=1, validators=[MinValueValidator(1)])
     title = models.CharField(max_length=200)
     image = models.ImageField(upload_to='images/uploaded', default='images/default.jpg')
     
@@ -39,7 +40,7 @@ class Trip(models.Model):
         return "|".join(event.coordinates() for event in self.event_set.all())
     
     def map_url(self):
-        return "https://maps.googleapis.com/maps/api/staticmap?size=1000x500&maptype=roadmap&markers=color:blue%7C" + self.all_coordinates() + "&key=" + os.environ['GOOGLE_MAPS_APIKEY']
+        return "https://maps.googleapis.com/maps/api/staticmap?size=640x640&maptype=roadmap&markers=color:blue%7C" + self.all_coordinates() + "&key=" + os.environ['GOOGLE_MAPS_APIKEY']
 
 class Event(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
@@ -49,7 +50,7 @@ class Event(models.Model):
     start_time = models.DateTimeField(default=django.utils.timezone.now)
     end_time = models.DateTimeField(default=django.utils.timezone.now)
     title = models.CharField(max_length=200)
-    price = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
+    price = models.DecimalField(max_digits=10, decimal_places=2, default=0.0, validators=[MinValueValidator(0.0)])
     comment = models.TextField(null=True, blank=True)
     address = models.CharField(max_length=200)
     long = models.DecimalField(max_digits=9, decimal_places=6, default=0.0)

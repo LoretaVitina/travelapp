@@ -1,7 +1,7 @@
 digraph model_graph {
   // Dotfile by Django-Extensions graph_models
-  // Created: 2024-06-05 11:22
-  // Cli Options: journey auth
+  // Created: 2024-06-09 17:27
+  // Cli Options: -a
 
   fontname = "Roboto"
   fontsize = 8
@@ -53,6 +53,14 @@ digraph model_graph {
       <FONT COLOR="#7B7B7B" FACE="Roboto">created_at</FONT>
       </TD><TD ALIGN="LEFT">
       <FONT COLOR="#7B7B7B" FACE="Roboto">DateTimeField</FONT>
+      </TD></TR>
+    
+    
+    
+      <TR><TD ALIGN="LEFT" BORDER="0">
+      <FONT FACE="Roboto">image</FONT>
+      </TD><TD ALIGN="LEFT">
+      <FONT FACE="Roboto">ImageField</FONT>
       </TD></TR>
     
     
@@ -116,9 +124,9 @@ digraph model_graph {
     
     
       <TR><TD ALIGN="LEFT" BORDER="0">
-      <FONT FACE="Roboto">comment</FONT>
+      <FONT COLOR="#7B7B7B" FACE="Roboto">comment</FONT>
       </TD><TD ALIGN="LEFT">
-      <FONT FACE="Roboto">TextField</FONT>
+      <FONT COLOR="#7B7B7B" FACE="Roboto">TextField</FONT>
       </TD></TR>
     
     

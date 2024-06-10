@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views import generic
 
-from .models import Event, Trip
+from .models import Trip
 
 
 class IndexView(generic.ListView):
