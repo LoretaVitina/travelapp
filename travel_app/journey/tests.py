@@ -3,6 +3,7 @@ import os
 from decimal import Decimal
 
 import mock
+from django.core.exceptions import ValidationError
 from django.test import TestCase
 
 from .models import Event, Trip
@@ -17,8 +18,10 @@ class EventModelTests(TestCase):
         event = Event.objects.create(trip=trip, lat=20.12345, long=25.12345)
         self.assertEqual(event.coordinates(), "20.12345,25.12345")
         
-    # def test_costs_is_not_negative_validator(self):
-        
+    def test_costs_is_not_negative_validator(self):
+        trip = self.create_trip()
+        event = Event.objects.create(trip=trip, price=-50.00)
+        self.assertRaises(ValidationError, event.full_clean)
         
 class TripModelTests(TestCase):
     def create_trip(self):
